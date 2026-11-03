@@ -217,7 +217,7 @@ Gráficos em `results/`.
 ## Progresso
 
 - [x] Versão sequencial de referência
-- [ ] Gerador de entradas e script de comparação
+- [x] Gerador de entradas e script de comparação
 - [ ] OpenMP
 - [ ] MPI
 - [ ] GPU (CUDA)
