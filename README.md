@@ -216,11 +216,10 @@ Gráficos em `results/`.
 
 ## Progresso
 
-- [ ] Versão sequencial de referência
+- [x] Versão sequencial de referência
 - [ ] Gerador de entradas e script de comparação
 - [ ] OpenMP
 - [ ] MPI
-- [ ] Híbrido MPI + OpenMP (opcional)
 - [ ] GPU (CUDA)
 - [ ] Scripts de benchmark
 - [ ] Análise de desempenho
@@ -228,4 +227,4 @@ Gráficos em `results/`.
 
 ## Autores
 
-- *Nome* (*e-mail* / *GitHub*)
+- Lucas Froes Belinassi
