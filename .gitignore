@@ -1,0 +1,4 @@
+bin/
+data/*.txt
+!data/exemplo.txt
+*.o
