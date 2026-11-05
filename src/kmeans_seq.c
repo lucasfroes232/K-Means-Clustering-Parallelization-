@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+
 #define DIM 3
 int main(void) {
 	int i, j, k, n, c;
@@ -22,6 +23,7 @@ int main(void) {
 	for (i = 0; i<n; i++)
 		scanf("%lf %lf %lf", x+i*DIM, x+i*DIM+1, x+i*DIM+2);
 	flips = n;
+	
 	while (flips>0) {
 		flips = 0;
 		for (j = 0; j < k; j++) {

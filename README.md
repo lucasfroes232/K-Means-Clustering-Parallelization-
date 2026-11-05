@@ -218,7 +218,7 @@ Gráficos em `results/`.
 
 - [x] Versão sequencial de referência
 - [x] Gerador de entradas e script de comparação
-- [ ] OpenMP
+- [x] OpenMP
 - [ ] MPI
 - [ ] GPU (CUDA)
 - [ ] Scripts de benchmark
