@@ -2,7 +2,15 @@
 #include <stdlib.h>
 #include <math.h>
 #include <omp.h>
+
 #define DIM 3
+#include <time.h>
+
+static double now(void) {
+    struct timespec t;
+    clock_gettime(CLOCK_MONOTONIC, &t);
+    return t.tv_sec + t.tv_nsec * 1e-9;   // segundos, como double
+}
 
 int main(void) {
     int i, j, k, n, c; 
@@ -11,6 +19,7 @@ int main(void) {
     int *cluster, *count, color; 
     int flips;
 
+    double t0 = now(); 
     // 0 - Bloco de Leitura de dados
     scanf("%d", &k);
     scanf("%d", &n);
@@ -28,6 +37,7 @@ int main(void) {
         scanf("%lf %lf %lf", x+i*DIM, x+i*DIM+1, x+i*DIM+2);
     flips = n; 
 
+    double t1 = now();
     while (flips > 0) {
         flips = 0;
         // Bloco 1 - Inicializa a contagem de pontos e a soma das coordenadas
@@ -72,6 +82,7 @@ int main(void) {
             }
         }
     }
+    double t2 = now();
     // Bloco 5 - Impressao final.
     for (i = 0; i < k; i++) { // 5.1 - imprime os centroides 
         for (j = 0; j < DIM; j++)
@@ -86,6 +97,6 @@ int main(void) {
         printf("%d\n", cluster[i]);
     }
     #endif
-
+    fprintf(stderr, "%.4f %.4f\n", t1 - t0, t2 - t1);  
     return(0);
 }

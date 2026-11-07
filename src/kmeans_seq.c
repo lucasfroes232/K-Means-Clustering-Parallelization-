@@ -3,12 +3,22 @@
 #include <math.h>
 
 #define DIM 3
+#include <time.h>
+
+static double now(void) {
+    struct timespec t;
+    clock_gettime(CLOCK_MONOTONIC, &t);
+    return t.tv_sec + t.tv_nsec * 1e-9;   // segundos, como double
+}
+
 int main(void) {
 	int i, j, k, n, c;
 	double dmin, dx;
 	double *x, *mean, *sum;
 	int *cluster, *count, color;
 	int flips;
+
+	double t0 = now();
 	scanf("%d", &k);
 	scanf("%d", &n);
 	x = (double *)malloc(sizeof(double)*DIM*n);
@@ -23,7 +33,8 @@ int main(void) {
 	for (i = 0; i<n; i++)
 		scanf("%lf %lf %lf", x+i*DIM, x+i*DIM+1, x+i*DIM+2);
 	flips = n;
-	
+
+	double t1 = now();
 	while (flips>0) {
 		flips = 0;
 		for (j = 0; j < k; j++) {
@@ -59,6 +70,7 @@ int main(void) {
   			}
 		}
 	}
+	double t2 = now();
 	for (i = 0; i < k; i++) {
 		for (j = 0; j < DIM; j++)
 			printf("%5.2f ", mean[i*DIM+j]);
@@ -71,5 +83,6 @@ int main(void) {
 		printf("%d\n", cluster[i]);
 	}
 	#endif
+	fprintf(stderr, "%.4f %.4f\n", t1 - t0, t2 - t1); 
 	return(0);
 }
