@@ -225,7 +225,7 @@ Gráficos em `results/`.
 - [ ] MPI
 - [ ] GPU (CUDA)
 - [x] Script de benchmark
-- [] Script para análise de desempenho
+- [ ] Script para análise de desempenho
 - [ ] Análise de desempenho
 - [ ] Relatório final
 
