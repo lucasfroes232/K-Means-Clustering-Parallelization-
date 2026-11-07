@@ -220,7 +220,9 @@ Gráficos em `results/`.
 ## Progresso
 
 - [x] Versão sequencial de referência
-- [x] Gerador de entradas e script de comparação
+- [x] Makefile para compilação
+- [x] Gerador de entradas 
+- [x] Script de validação
 - [x] OpenMP
 - [ ] MPI
 - [ ] GPU (CUDA)
