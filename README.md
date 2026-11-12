@@ -224,7 +224,7 @@ Gráficos em `results/`.
 - [x] Gerador de entradas 
 - [x] Script de validação
 - [x] OpenMP
-- [ ] MPI
+- [x] MPI
 - [ ] GPU (CUDA)
 - [x] Script de benchmark
 - [x] Script para análise de desempenho

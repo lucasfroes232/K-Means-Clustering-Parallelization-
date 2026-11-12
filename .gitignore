@@ -2,3 +2,6 @@ bin/
 data/*.txt
 !data/exemplo.txt
 *.o
+results/slurm_*.out
+results/.tmp*
+results/.ref*
