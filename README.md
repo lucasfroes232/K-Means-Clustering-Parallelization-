@@ -82,6 +82,7 @@ Em MPI, a comunicação por iteração é `O(k)`, independente de `n`.
 .
 ├── README.md
 ├── Makefile
+├── job.sh                  # script para executar no cluster
 ├── src/
 │   ├── kmeans_seq.c        # versão sequencial (referência)
 │   ├── kmeans_omp.c        # OpenMP
@@ -187,7 +188,8 @@ A análise de desempenho foi feita a partir da medição, em cada execução, do
 - **Lei de Amdahl:** estimativa da fração sequencial e comparação com o speedup medido
 - **Decomposição do tempo:** leitura da entrada e núcleo do algoritmo
 
-O experimento principal usa `k = 50` e `n = 10⁶`, variando de 1 a 6 o número de threads (OpenMP) e de processos (MPI).
+
+Executamos o experimento 2 vezes, tanto com um dataset pequeno (`k = 16` e `n = 10⁶`) quanto com um grande(`k = 50` e `n = 10⁷`). Em ambos o número de threads (OpenMP) e de processos (MPI) variam de 1 a 40.
 
 A análise é executada de forma automatizada a partir do CSV gerado pelo benchmark:
 
@@ -199,12 +201,11 @@ python3 tools/analyze.py results/benchmark.csv
 
 | Item | Valor |
 |---|---|
-| CPU | AMD Ryzen 5 5500 |
-| Núcleos / threads | 6 CPUs lógicas visíveis no WSL2 |
-| RAM | 11 GiB (alocada ao WSL2) |
-| GPU | *(preencher)* |
-| SO | Ubuntu 22.04.5 LTS (WSL2) |
-| Compilador e flags | gcc 11.4.0, `-O3 -march=native` (`-fopenmp` no OpenMP) |
+| CPU | x86_64 (Sockets=2, CoresPerSocket=10, ThreadsPerCore=2) |
+| Núcleos / threads | 40 CPUs lógicas |
+| RAM | 386Gb |
+| SO | Rocky Linux 8.10 (Green Obsidian) |
+| Compilador e flags | gcc (GCC) 9.4.0 `-O3 -march=native` (`-fopenmp` no OpenMP) |
 
 ## Resultados
 
@@ -228,9 +229,12 @@ Gráficos em `results/`.
 - [ ] GPU (CUDA)
 - [x] Script de benchmark
 - [x] Script para análise de desempenho
-- [ ] Análise de desempenho ( Rodar todos )
+- [x] Análise de desempenho ( Rodar todos )
 - [ ] Relatório final
 
 ## Autores
 
 - Lucas Froes Belinassi
+- Marcus Vinicius de Andrade Silva
+- Maurício Alonzo
+- Vinícius Ferreira Araujo
