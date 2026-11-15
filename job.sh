@@ -1,3 +1,4 @@
+cat > job.sh << 'EOF'
 #!/bin/bash
 #SBATCH -J kmeans_bench
 #SBATCH -o results/slurm_%j.out
@@ -9,7 +10,7 @@
 #SBATCH --mem-per-cpu=1G
 #SBATCH -t 03:00:00
 
-# ============================ CONFIGURAÇÕES ============================
+# ============================ CONFIGURE AQUI ============================
 LISTA="1 2 4 8 16 20"
 K_SMALL=16;  N_SMALL=1000000;   REPS_SMALL=5
 K_LARGE=50;  N_LARGE=5000000;  REPS_LARGE=3
@@ -24,18 +25,22 @@ if [ -z "${SLURM_JOB_ID:-}" ]; then
 
   command -v mpicc >/dev/null || { echo "ERRO: mpicc nao encontrado. Rode 'module load gnu9 openmpi4' e tente de novo."; exit 1; }
 
+  # limpa quebras de linha do Windows e espacos no fim das linhas (nao mexe no job.sh)
+  sed -i 's/\r$//; s/[ \t]*$//' scripts/*.sh tools/*.py Makefile
+  chmod +x scripts/*.sh tools/*.py
+
   make clean
-  make CC=gcc CFLAGS="-O3 -march=x86-64-v2" seq omp mpi \
+  make CC=gcc CFLAGS="-O3 -march=x86-64" seq omp mpi \
     || { echo "ERRO: compilacao falhou. Nada foi para a fila."; exit 1; }
 
   # teste minusculo no login (segundos): valida formato de saida, compare.py e mpirun
+  mkdir -p results
   TMP_IN=$(mktemp)
   python3 tools/gen_input.py 4 2000 1 > "$TMP_IN"
   MAX_P=2 REPS=1 PROCS="1 2" THREADS="1 2" timeout 120 ./scripts/run_benchmark.sh "$TMP_IN" \
     || { echo "ERRO: teste rapido falhou (veja acima). Use FORCE=1 para enviar mesmo assim."; [ "${FORCE:-0}" = 1 ] || exit 1; }
   rm -f results/benchmark.csv "$TMP_IN"
 
-  mkdir -p results
   sbatch "$SCRIPT"
   exit $?
 fi
@@ -62,11 +67,12 @@ command -v python3 >/dev/null || { echo "ERRO: python3 nao encontrado no no."; e
 mkdir -p "$SCRATCH_DIR" || exit 1
 cp -r "$HOME_DIR"/bin "$HOME_DIR"/scripts "$HOME_DIR"/tools "$SCRATCH_DIR/"
 cd "$SCRATCH_DIR" || exit 1
-chmod +x scripts/*.sh tools/*.py 2>/dev/null
 mkdir -p data results
 
 run_test() {
-  local nome=$1 k=$2 n=$3 reps=$4 arq="data/k${k}_n${n}.txt" bg
+  local nome=$1 k=$2 n=$3 reps=$4
+  local arq="data/k${k}_n${n}.txt"
+  local bg
   echo "--- Iniciando teste $nome (k=$k, n=$n, REPS=$reps) ---"; date
   python3 tools/gen_input.py "$k" "$n" 42 > "$arq" || { echo "ERRO ao gerar entrada $nome"; return 1; }
 
@@ -87,3 +93,7 @@ run_test large "$K_LARGE" "$N_LARGE" "$REPS_LARGE"
 
 cd "$HOME_DIR" && rm -rf "$SCRATCH_DIR"
 echo "--- Job finalizado ---"; date
+EOF
+
+bash -n job.sh && echo "sintaxe OK"
+bash job.sh
