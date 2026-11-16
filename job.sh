@@ -89,6 +89,7 @@ run_test() {
 }
 
 run_test small "$K_SMALL" "$N_SMALL" "$REPS_SMALL"
+# no projeto ha apenas o dataset small, pois o large demorava muuuito
 run_test large "$K_LARGE" "$N_LARGE" "$REPS_LARGE"
 
 cd "$HOME_DIR" && rm -rf "$SCRATCH_DIR"

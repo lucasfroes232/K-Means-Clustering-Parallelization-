@@ -83,6 +83,7 @@ Em MPI, a comunicação por iteração é `O(k)`, independente de `n`.
 ├── README.md
 ├── Makefile
 ├── job.sh                  # script para executar no cluster
+├── job_ht.sh                    
 ├── src/
 │   ├── kmeans_seq.c        # versão sequencial (referência)
 │   ├── kmeans_omp.c        # OpenMP
@@ -96,7 +97,7 @@ Em MPI, a comunicação por iteração é `O(k)`, independente de `n`.
 │   └── run_benchmarks.sh   # executa os experimentos
 ├── bin/                    # executáveis gerados pelo make
 ├── data/                   # entradas de teste 
-├── results/                # saídas de teste
+├── results/                # saídas dos testes
 └── docs/                   # relatório
 ```
 
@@ -189,12 +190,15 @@ A análise de desempenho foi feita a partir da medição, em cada execução, do
 - **Decomposição do tempo:** leitura da entrada e núcleo do algoritmo
 
 
-Executamos o experimento 2 vezes, tanto com um dataset pequeno (`k = 16` e `n = 10⁶`) quanto com um grande(`k = 50` e `n = 10⁷`). Em ambos o número de threads (OpenMP) e de processos (MPI) variam de 1 a 40.
+Executamos o experimento 2 vezes, tanto com um dataset pequeno (`k = 16` e `n = 10⁶`) quanto com um grande(`k = 50` e `n = 10⁷`). Em ambos o número de threads (OpenMP) e de processos (MPI) variam de 1 a 20.
 
-A análise é executada de forma automatizada a partir do CSV gerado pelo benchmark:
+
+Porém, mesmo em um cluster, o dataset grande demora muito para ser executado. Por isso, não fizemos seu benchmark completo, apenas parcial (`results/benchmark_large_IMCOMPLETO`). 
+
+A análise do menor dataset é executada de forma automatizada a partir do CSV gerado pelo benchmark:
 
 ```bash
-python3 tools/analyze.py results/benchmark.csv
+python3 tools/analyze.py results/analise_FINAL/benchmark.csv
 ```
 
 ### Ambiente de testes
@@ -207,6 +211,8 @@ python3 tools/analyze.py results/benchmark.csv
 | SO | Rocky Linux 8.10 (Green Obsidian) |
 | Compilador e flags | gcc (GCC) 9.4.0 `-O3 -march=native` (`-fopenmp` no OpenMP) |
 
+Os testes foram realizados através do script `job.sh`.
+
 ## Resultados
 
 | Versão | Configuração | Tempo (s) | Speedup | Eficiência |
@@ -216,7 +222,7 @@ python3 tools/analyze.py results/benchmark.csv
 | MPI | | | | |
 | GPU | | | | |
 
-Gráficos em `results/`.
+Gráficos em `results/analise_FINAL`.
 
 ## Progresso
 
