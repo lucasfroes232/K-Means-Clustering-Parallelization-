@@ -5,3 +5,13 @@ data/*.txt
 results/slurm_*.out
 results/.tmp*
 results/.ref*
+
+# Ambientes Python e arquivos temporários
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Arquivos gerados pelas demonstrações do notebook
+kmeans_notebook/

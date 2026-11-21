@@ -62,6 +62,7 @@ if [ -x "$BIN/kmeans_mpi" ]; then
 else
     echo "AVISO: $BIN/kmeans_mpi não encontrado; MPI será pulado." >&2
 fi
+
 if [ -x "$BIN/kmeans_cuda" ]; then
     HAS_CUDA=1
 else
@@ -127,6 +128,7 @@ for rep in $(seq 1 "$REPS"); do
             run_one mpi "$p" "$rep" mpirun -np "$p" "$BIN/kmeans_mpi"
         done
     fi
+
 
     if [ "$HAS_CUDA" -eq 1 ]; then
         run_one cuda 1 "$rep" "$BIN/kmeans_cuda"
